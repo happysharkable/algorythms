@@ -6,12 +6,14 @@ public class MyArrayList<T extends Comparable<T>> {
     private T[] list;
     private int size = 0;
     private final int DEFAULT_CAPACITY = 10;
-
+    private final int DEFAULT_INCREASE_RATIO = 2;
+    private int capacity = DEFAULT_CAPACITY;
 
     public MyArrayList(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException("capacity : " + capacity);
         }
+        this.capacity = capacity;
         list = (T[]) new Comparable[capacity];
     }
 
@@ -21,7 +23,9 @@ public class MyArrayList<T extends Comparable<T>> {
 
     public void add(T item) {
         list[size] = item;
-        size++;
+        if (++size >= capacity) {
+            increaseCapacity(DEFAULT_INCREASE_RATIO);
+        }
     }
 
     public void add(int index, T item) {
@@ -31,7 +35,18 @@ public class MyArrayList<T extends Comparable<T>> {
             list[i] = list[i - 1];
         }
         list[index] = item;
-        size++;
+        if (++size >= capacity) {
+            increaseCapacity(DEFAULT_INCREASE_RATIO);
+        }
+    }
+
+    private void increaseCapacity(int ratio) {
+        capacity *= ratio;
+        T[] tmp = (T[]) new Comparable[capacity];
+        for (int i = 0; i < list.length; i++) {
+            if (i < size) tmp[i] = list[i];
+        }
+        list = tmp;
     }
 
     public boolean remove(T item) {
@@ -170,7 +185,6 @@ public class MyArrayList<T extends Comparable<T>> {
         }
     }
 
-
     public void bubbleSort(Comparator<T> comparator) {
         boolean isSwapped;
         for (int i = size - 1; i > 0; i--) {
@@ -187,4 +201,7 @@ public class MyArrayList<T extends Comparable<T>> {
         }
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
 }
