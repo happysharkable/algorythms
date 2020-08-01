@@ -12,8 +12,15 @@ public class Main {
 
         System.out.println(mll);
 
-        mll.insertLast("Bob");
-        System.out.println(mll);
+        ListIterator<String> iter = mll.listIterator();
+        System.out.println(iter.next());
+        System.out.println(iter.next());
+        System.out.println(iter.next());
+        System.out.println(iter.previous());
+        System.out.println(iter.previous());
+
+//        mll.insertLast("Bob");
+//        System.out.println(mll);
 
 
 
@@ -25,13 +32,13 @@ public class Main {
 //        mll.insert(1, "Sasha");
 //        System.out.println(mll);
 //
-        System.out.println(mll.delete("Bob"));
-        System.out.println(mll);
-
-
-        for (String s : mll) {
-            System.out.println(s);
-        }
+//        System.out.println(mll.delete("Bob"));
+//        System.out.println(mll);
+//
+//
+//        for (String s : mll) {
+//            System.out.println(s);
+//        }
 
 
     }
