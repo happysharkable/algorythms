@@ -1,6 +1,7 @@
 package lesson4;
 
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class MyLinkedList<T> implements Iterable<T>{
     private Node first;
@@ -11,6 +12,8 @@ public class MyLinkedList<T> implements Iterable<T>{
     public Iterator<T> iterator() {
         return new Iter();
     }
+
+    public ListIterator<T> listIterator() { return new ListIter(); }
 
     public MyLinkedList() {
         first = null;
@@ -49,6 +52,73 @@ public class MyLinkedList<T> implements Iterable<T>{
         public T next() {
             current = current.next;
             return current.value;
+        }
+    }
+
+    private class ListIter implements ListIterator<T> {
+        Node current = new Node(null, first);
+        Node tmp = new Node(null, null, null);
+        boolean elementSelected;
+
+        @Override
+        public boolean hasNext() {
+            return current.next != null;
+        }
+
+        @Override
+        public T next() {
+            elementSelected = true;
+            current = current.next;
+            current.previous = current;
+            System.out.println("\nNEXT prev: " + (current.previous == null ? "null" : current.previous.value) + "; next: " + (current.next == null ? "null" : current.next.value));
+            return current.value;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return current.previous != null;
+        }
+
+        @Override
+        public T previous() {
+//            // ???
+//            elementSelected = true;
+//            current = current.previous;
+//            System.out.println("\nPREV prev: " + (current.previous == null ? "null" : current.previous.value) + "; next: " + (current.next == null ? "null" : current.next.value));
+            return current.value;
+        }
+
+        @Override
+        public int nextIndex() {
+            return index(current.next.value);
+        }
+
+        @Override
+        public int previousIndex() {
+            return index(current.previous.value);
+        }
+
+        @Override
+        public void remove() {
+            if (elementSelected) {
+                delete(current.value);
+                elementSelected = false;
+            } else {
+                throw new IllegalStateException("Element not selected");
+            }
+        }
+
+        @Override
+        public void set(T t) {
+            if (elementSelected) {
+                current.value = t;
+            } else {
+                throw new IllegalStateException("Element not selected");
+            }
+        }
+
+        @Override
+        public void add(T t) {
         }
     }
 
