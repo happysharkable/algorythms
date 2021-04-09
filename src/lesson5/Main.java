@@ -11,8 +11,11 @@ public class Main {
 //        System.out.println(triangleNum(5));
 //        System.out.println(recTriangleNum(5));
 
-        System.out.println(multiply(3, 8));
-        System.out.println(recMultiply(3,8));
+//        System.out.println(multiply(3, 8));
+//        System.out.println(recMultiply(3,8));
+
+        System.out.println(power(2,5));
+        System.out.println(recPower(2,5));
 
     }
 
@@ -81,5 +84,15 @@ public class Main {
         return recMultiply(a, b - 1) + a;
     }
 
+    public static long power(int base, int power) {
+        long result = 1;
+        for (int i = 0; i < power; i++) {
+            result *= base;
+        }
+        return result;
+    }
 
+    public static long recPower(int base, int power) {
+        return (power == 0) ? 1 : recPower(base, power - 1) * base;
+    }
 }
